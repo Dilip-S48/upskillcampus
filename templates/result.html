@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="card p-4 mb-3">
+    <h3 class="mb-2">Results — {{ quiz.title }}</h3>
+    <div class="d-flex gap-3">
+      <div class="badge bg-success p-2">Score: {{ score }}/{{ total }}</div>
+      <div class="badge bg-info p-2">Percent: {{ percent }}%</div>
+    </div>
+  </div>
+
+  <div class="card p-3">
+    <ol class="mb-0">
+      {% for q in quiz.questions %}
+        {% set ua = answers[q.id] or '' %}
+        <li class="mb-2">
+          <div class="fw-semibold">{{ q.text }}</div>
+          <div class="small {% if ua == q.correct %}text-success{% else %}text-danger{% endif %}">
+            Your Answer: {{ ua|default('—') }} · Correct: {{ q.correct }}
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <div class="mt-3">
+    <a class="btn btn-secondary" href="{{ url_for('index') }}">Back to Dashboard</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="card p-4">
+    <h3 class="mb-3">Create Quiz</h3>
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="form-label">Title</label>
+          <input name="title" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Duration (minutes)</label>
+          <input type="number" min="1" name="duration_minutes" class="form-control" value="5">
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-success">Create & Add Questions</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

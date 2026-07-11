@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+  {% if stats %}
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-white">Users</div>
+            <div class="fs-3 fw-bold">{{ stats.users }}</div>
+          </div>
+          <div class="badge bg-primary">Admin</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <div class="text-white">Quizzes</div>
+        <div class="fs-3 fw-bold">{{ stats.quizzes }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <div class="text-white">Attempts</div>
+        <div class="fs-3 fw-bold">{{ stats.attempts }}</div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% if current_user.is_authenticated and current_user.role == 'admin' %}
+  <div class="mb-3 text-start">
+    <a href="{{ url_for('admin_users') }}" class="btn btn-primary">Manage Users</a>
+  </div>
+{% endif %}
+
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Available Quizzes</h2>
+    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+      <a href="{{ url_for('add_quiz') }}" class="btn btn-success">+ Create Quiz</a>
+    {% endif %}
+  </div>
+
+  <div class="row g-3">
+    {% for q in quizzes %}
+    <div class="col-md-4">
+      <div class="card h-100 p-3">
+        <div class="d-flex justify-content-between">
+          <h5 class="card-title">{{ q.title }}</h5>
+          <span class="badge rounded-pill bg-info">⏱ {{ q.duration_minutes }} min</span>
+        </div>
+        <p class="text-white mb-3">{{ q.questions|length }} questions</p>
+        <div class="d-flex gap-2 mt-auto">
+          <a class="btn btn-primary btn-sm" href="{{ url_for('quiz', quiz_id=q.id) }}">Start</a>
+          {% if current_user.is_authenticated and current_user.role == 'admin' %}
+            <a class="btn btn-warning btn-sm" href="{{ url_for('manage_quiz', quiz_id=q.id) }}">Manage</a>
+            <form method="post" action="{{ url_for('delete_quiz', quiz_id=q.id) }}">
+              <button class="btn btn-danger btn-sm" onclick="return confirm('Delete quiz?')">Delete</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% else %}
+      <div class="col-12"><div class="card p-4 text-center">No quizzes yet.</div></div>
+    {% endfor %}
+  </div>
+{% endblock %}

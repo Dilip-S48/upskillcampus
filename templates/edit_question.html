@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="card p-4">
+    <h3 class="mb-3">Edit Question</h3>
+    <form method="post">
+      <div class="mb-2">
+        <label class="form-label">Question</label>
+        <input name="text" class="form-control" value="{{ question.text }}" required>
+      </div>
+      <div class="row g-2">
+        <div class="col-md-6"><input name="option_a" class="form-control" value="{{ question.option_a }}" required></div>
+        <div class="col-md-6"><input name="option_b" class="form-control" value="{{ question.option_b }}" required></div>
+        <div class="col-md-6"><input name="option_c" class="form-control" value="{{ question.option_c }}" required></div>
+        <div class="col-md-6"><input name="option_d" class="form-control" value="{{ question.option_d }}" required></div>
+      </div>
+      <div class="mt-2">
+        <label class="form-label">Correct Answer</label>
+        <select name="correct" class="form-select">
+          <option value="A" {% if question.correct=='A' %}selected{% endif %}>A</option>
+          <option value="B" {% if question.correct=='B' %}selected{% endif %}>B</option>
+          <option value="C" {% if question.correct=='C' %}selected{% endif %}>C</option>
+          <option value="D" {% if question.correct=='D' %}selected{% endif %}>D</option>
+        </select>
+      </div>
+      <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-success">Save Changes</button>
+        <a href="{{ url_for('manage_quiz', quiz_id=question.quiz_id) }}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>My Results</h2>
+  <table class="table table-bordered table-hover mt-3">
+    <thead class="table-light">
+      <tr>
+        <th>Quiz</th>
+        <th>Score</th>
+        <th>Total</th>
+        <th>Percentage</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td>{{ r.quiz.title }}</td>
+        <td>{{ r.score }}</td>
+        <td>{{ r.total }}</td>
+        <td>{{ (r.score / r.total * 100) | round(2) }}%</td>
+        <td>
+      <a href="{{ url_for('view_result', result_id=r.id) }}" class="btn btn-info btn-sm">
+        Show
+      </a>
+    </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

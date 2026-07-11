@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Result for {{ quiz.title }}</h2>
+  <p><b>Score:</b> {{ result.score }}/{{ result.total }} ({{ result.percent }}%)</p>
+
+  <div class="mt-4">
+    {% for item in details %}
+      <div class="card mb-3 p-3">
+        <h5>Q{{ loop.index }}. {{ item.question }}</h5>
+        <ul class="list-group">
+          {% for key, value in item.options.items() %}
+            <li class="list-group-item
+              {% if key == item.correct %} list-group-item-success {% endif %}
+              {% if key == item.user_answer and key != item.correct %} list-group-item-danger {% endif %}
+            ">
+              <b>{{ key }}:</b> {{ value }}
+              {% if key == item.correct %}<span class="badge bg-success">Correct</span>{% endif %}
+              {% if key == item.user_answer %}<span class="badge bg-info">Your Answer</span>{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
